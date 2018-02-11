@@ -9,13 +9,13 @@ forced partial assignment:
 
 forbidden machine:
 
-(1,A)
+(1,C)
 (8,C)
 
 
 too-near tasks:
 
-(A,B)
+(A,C)
 
 
 (C,D   )

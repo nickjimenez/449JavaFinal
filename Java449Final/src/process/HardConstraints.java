@@ -114,14 +114,25 @@ public class HardConstraints{
 	private static void setTooNear(int[][] mainArray, int firstTask, int secondTask, ArrayList<String> tooNearArray, int[] forcedList) {
 		// TODO Auto-generated method stub
 	    for (int count = 0 ; count < 8; count++) {
-	    		if(mainArray[count][firstTask] != -1){
-	    			if (count == 7) {
+	    		if(mainArray[count][firstTask] != -1){ //checks if machine has already been forced to a task. 
+	    			//if it hasn't, go in. else ignore.
+	    			if (count == 7) { //if machine 8, forbidden next is machine 1.
 	    				if (isForced(count,firstTask,forcedList)) {
-	    					mainArray[0][secondTask] = -1;
+	    					if (isForced(count+1, secondTask, forcedList)) {
+	    						OutputWriter.writeFile(forcedList, firstTask, "ERROR: Too near and Forced Task conflict!");
+	    						System.exit(0);
+	    					}
+	    					else {	mainArray[0][secondTask] = -1;
+	    					}
 	    				}
 	    			}else {
 	    				if (isForced(count,firstTask, forcedList)) {
-	    					mainArray[count+1][secondTask] = -1;
+	    					if (isForced(count+1, secondTask, forcedList)) {
+	    						OutputWriter.writeFile(forcedList, firstTask, "ERROR: Too near and Forced Task conflict!");
+	    						System.exit(0);
+	    					}
+	    					else {	mainArray[count+1][secondTask] = -1;
+	    					}
 	    				}		
 	    			}
 
@@ -143,7 +154,7 @@ public class HardConstraints{
 		// TODO Auto-generated method stub
 		int ignoreVal = -1;
 		if (checkTaskBounds(forbiddenTask) == false) {
-			OutputWriter.writeFile(forcedList, ignoreVal, "ERROR: Task out of bounds");
+			OutputWriter.writeFile(forcedList, ignoreVal, "ERROR: Forbidden Task out of bounds");
 			//do nothing. go back to for loop
 			//System.out.println("ERROR: Task out of bounds");
 			System.exit(0);
@@ -215,7 +226,7 @@ public class HardConstraints{
 			// TODO Auto-generated method stub
 			int ignoreVal = -1;
 			if (checkTaskBounds(task) == false) {
-				OutputWriter.writeFile(forcedList, ignoreVal, "Error: Task out of bounds!");
+				OutputWriter.writeFile(forcedList, ignoreVal, "Error: Forced Task out of bounds!");
 				//do nothing. go back to for loop
 				//System.out.print("Error: Task out of bounds!");
 				System.exit(0);
