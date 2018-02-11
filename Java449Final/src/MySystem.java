@@ -30,9 +30,9 @@ public class MySystem {
 		}
 		catch(Exception e) {
 			int[] forcedList = {};
-			int ignoreVal = -1;
+			//int ignoreVal = -1;
 			//System.out.println("ERROR: Retry with valid argument for parameters INPUTFILE OUPUTFILE");
-			OutputWriter.writeFile(forcedList, ignoreVal, "Error: Task out of bounds!");
+			OutputWriter.writeFile(forcedList, 0, "Error: Task out of bounds!");
 			//do nothing. go back to for loop
 			//System.out.print("Error: Task out of bounds!");
 			//System.exit(0);

@@ -50,7 +50,7 @@ public class OutputWriter {
         			System.out.println("Could not write to file");
         		}
         
-        } else {
+        } else if (errorString != "x"){
         	
         		try {
         			FileWriter fw = new FileWriter(Config.OUTPUT_FILENAME);

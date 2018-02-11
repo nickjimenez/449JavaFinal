@@ -119,7 +119,7 @@ public class HardConstraints{
 	    			if (count == 7) { //if machine 8, forbidden next is machine 1.
 	    				if (isForced(count,firstTask,forcedList)) {
 	    					if (isForced(count+1, secondTask, forcedList)) {
-	    						OutputWriter.writeFile(forcedList, firstTask, "ERROR: Too near and Forced Task conflict!");
+	    						OutputWriter.writeFile(forcedList, 0, "ERROR: Too near and Forced Task conflict!");
 	    						System.exit(0);
 	    					}
 	    					else {	mainArray[0][secondTask] = -1;
@@ -128,7 +128,7 @@ public class HardConstraints{
 	    			}else {
 	    				if (isForced(count,firstTask, forcedList)) {
 	    					if (isForced(count+1, secondTask, forcedList)) {
-	    						OutputWriter.writeFile(forcedList, firstTask, "ERROR: Too near and Forced Task conflict!");
+	    						OutputWriter.writeFile(forcedList, 0, "ERROR: Too near and Forced Task conflict!");
 	    						System.exit(0);
 	    					}
 	    					else {	mainArray[count+1][secondTask] = -1;
@@ -154,7 +154,7 @@ public class HardConstraints{
 		// TODO Auto-generated method stub
 		int ignoreVal = -1;
 		if (checkTaskBounds(forbiddenTask) == false) {
-			OutputWriter.writeFile(forcedList, ignoreVal, "ERROR: Forbidden Task out of bounds");
+			OutputWriter.writeFile(forcedList, 0, "ERROR: Forbidden Task out of bounds");
 			//do nothing. go back to for loop
 			//System.out.println("ERROR: Task out of bounds");
 			System.exit(0);
@@ -202,7 +202,7 @@ public class HardConstraints{
 		for (int counter = 0; counter < mainArray.length; counter++) {
 			if (counter == forbiddenTask) {
 				if (isForced(machine, forbiddenTask, forcedList)) {
-					OutputWriter.writeFile(forcedList, ignoreVal, "ERROR: FORCED and FORBIDDEN HARD CONSTRAINTS CONFLICT");
+					OutputWriter.writeFile(forcedList, 0, "ERROR: FORCED and FORBIDDEN HARD CONSTRAINTS CONFLICT");
 					
 					//System.out.println("ERROR: FORCED and FORBIDDEN HARD CONSTRAINTS CONFLICT");
 					System.exit(0);
@@ -226,7 +226,7 @@ public class HardConstraints{
 			// TODO Auto-generated method stub
 			int ignoreVal = -1;
 			if (checkTaskBounds(task) == false) {
-				OutputWriter.writeFile(forcedList, ignoreVal, "Error: Forced Task out of bounds!");
+				OutputWriter.writeFile(forcedList, 0, "Error: Forced Task out of bounds!");
 				//do nothing. go back to for loop
 				//System.out.print("Error: Task out of bounds!");
 				System.exit(0);
