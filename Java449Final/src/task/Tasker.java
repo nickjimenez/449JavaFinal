@@ -35,7 +35,7 @@ public class Tasker {
 			
 			// Iterates through the task and gets the task that is unassigned and has the lowest penalty cost
 			for (int currTask = 0; currTask < costMatrix.length; currTask++) {
-				if (!node.assignedNodesArray[currTask] || availableNodesArray[currTask] && costMatrix[currMach][currTask] < minTaskCost && costMatrix[currMach][currTask] != -1) {
+				if ((!node.assignedNodesArray[currTask] || availableNodesArray[currTask]) && costMatrix[currMach][currTask] < minTaskCost && costMatrix[currMach][currTask] != -1) {
 					minTaskIndex = currTask;
 					minTaskCost = costMatrix[currMach][currTask];
 				}
@@ -114,7 +114,7 @@ public class Tasker {
 			for (int currTask = 0; currTask < costMatrix.length; currTask++)
 		      {
 		        // Creates a child node for the unassigned task
-		        if (!activeNode.assignedNodesArray[currTask]) {
+		        if (!activeNode.assignedNodesArray[currTask] && costMatrix[currMach][currTask] != -1) {
 		        	Node child = new Node(currMach, currTask, activeNode.assignedNodesArray, activeNode);
 		 
 		        	// Calculates the path cost of the node

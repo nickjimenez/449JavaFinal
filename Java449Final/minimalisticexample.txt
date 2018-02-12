@@ -3,7 +3,7 @@ minimalisticexample
 
 forced partial assignment:
 (1,A)
-(2,B)
+(2,C)
 (8,H)
 
 
@@ -15,27 +15,27 @@ forbidden machine:
 
 too-near tasks:
 
-(A,C)
+(A,B)
 
 
 (C,D)
 
 machine penalties:
 
-1 1 1 1 1 1 1 1
+9 8 4 3 1 2 3 6
 
-1 1 1 1 1 1 1 1
+9 8 4 3 1 2 3 6
 
-1 1 1 1 1 1 1 1
+9 8 4 3 1 2 3 6
 
-1 1 1 1 1 1 1 1
+9 8 4 3 1 2 3 6
 
-1 1 1 1 1 1 1 1
+9 8 4 3 1 2 3 6
 
-1 1 1 1 1 1 1 1
+9 8 4 3 1 2 3 6
 
-1 1 1 1 1 1 1 1
+9 8 4 3 1 2 3 6
 
-1 1 1 1 1 1 1 1
+9 8 4 3 1 2 3 6
 
 too-near penalities

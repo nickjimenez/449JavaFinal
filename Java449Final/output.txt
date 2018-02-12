@@ -1,1 +1,1 @@
-"Solution" F G B A C H E D"; Quality:" -4
+"Solution" A C B D G E F H"; Quality:" 36
