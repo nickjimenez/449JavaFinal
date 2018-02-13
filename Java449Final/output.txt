@@ -1,1 +1,1 @@
-"Solution" A C B D G E F H"; Quality:" 36
+machine penalty error

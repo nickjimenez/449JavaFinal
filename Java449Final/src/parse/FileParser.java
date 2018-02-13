@@ -86,8 +86,8 @@ public class FileParser {
 								default:
 									//System.out.println("invalid machine/task");
 									int[] forcedList = {};
-									int ignoreVal = -1;
-									OutputWriter.writeFile(forcedList, 0, "ERROR: Invalid Machine/Task");
+									//int ignoreVal = -1;
+									OutputWriter.writeFile(forcedList, 0, "invalid machine/task");
 									System.exit(0);
 								}
 							} 
@@ -96,8 +96,8 @@ public class FileParser {
 							else {
 								//System.out.println("partial assignment error");
 								int[] forcedList = {};
-								int ignoreVal = -1;
-								OutputWriter.writeFile(forcedList, 0, "ERROR: Partial Assignmrnt Error");
+								//int ignoreVal = -1;
+								OutputWriter.writeFile(forcedList, 0, "partial assignment error");
 								System.exit(0);
 							}
 						}
@@ -110,7 +110,7 @@ public class FileParser {
 									& forcedPartialAssignment[i] != -1 & forcedPartialAssignment[j] != -1) {
 								int[] forcedList = {};
 								//int ignoreVal = -1;
-								OutputWriter.writeFile(forcedList, 0, "ERROR: Partial Assignment Error");
+								OutputWriter.writeFile(forcedList, 0, "partial assignment error");
 								//System.out.println("partial assignment error");
 								System.exit(0);
 							}
@@ -168,8 +168,8 @@ public class FileParser {
 								break;
 							default:
 								int[] forcedList = {};
-								int ignoreVal = -1;
-								//OutputWriter.writeFile(forcedList, 0, "ERROR: Invalid Machine/Task");
+								//int ignoreVal = -1;
+								OutputWriter.writeFile(forcedList, 0, "invalid machine/task");
 								
 								//System.out.println("invalid machine/task");
 								System.exit(0);
@@ -199,7 +199,7 @@ public class FileParser {
 								//System.out.println("invalid machine/task");
 								int[] forcedList = {};
 								//int ignoreVal = -1;
-								OutputWriter.writeFile(forcedList, 0, "ERROR: Invalid Machine/Task");
+								OutputWriter.writeFile(forcedList, 0, "invalid machine/task");
 								System.exit(0);
 							}
 							tooNear1 = Character.toString(lineArray[1]);
@@ -245,7 +245,7 @@ public class FileParser {
 									if (Integer.parseInt(penaltyBuffer) < 0) {
 										int[] forcedList = {};
 										//int ignoreVal = -1;
-										OutputWriter.writeFile(forcedList, 0, "ERROR: Invalid Penalty");
+										OutputWriter.writeFile(forcedList, 0, "invalid penalty");
 										//System.out.println("invalid penalty");
 										System.exit(0);
 									}
@@ -261,7 +261,7 @@ public class FileParser {
 							} catch (Exception e) {
 								int[] forcedList = {};
 								//int ignoreVal = -1;
-								OutputWriter.writeFile(forcedList, 0, "ERROR: Machine Penalty Error");
+								OutputWriter.writeFile(forcedList, 0, "machine penalty error");
 								//System.out.println("machine penalty error");
 								System.exit(0);
 							}
@@ -272,7 +272,7 @@ public class FileParser {
 						if (task < 7) {
 							int[] forcedList = {};
 							//int ignoreVal = -1;
-							OutputWriter.writeFile(forcedList, 0, "ERROR: Machine Penalty Error");
+							OutputWriter.writeFile(forcedList, 0, "machine penalty error");
 							//System.out.println("machine penalty error");
 							System.exit(0);
 						}
@@ -283,8 +283,8 @@ public class FileParser {
 							}
 						} catch (Exception e) {
 							int[] forcedList = {};
-							int ignoreVal = -1;
-							OutputWriter.writeFile(forcedList, 0, "ERROR: Machine Penalty Error");
+							//int ignoreVal = -1;
+							OutputWriter.writeFile(forcedList, 0, "machine penalty error");
 							//System.out.println("machine penalty error");
 							System.exit(0);
 						}
@@ -296,8 +296,8 @@ public class FileParser {
 					// if we have less than 8 machines, notify and exit
 					if (machine - 1 < 7) {
 						int[] forcedList = {};
-						int ignoreVal = -1;
-						OutputWriter.writeFile(forcedList, 0, "ERROR: Machine Penalty Error");
+						//int ignoreVal = -1;
+						OutputWriter.writeFile(forcedList, 0, "machine penalty error");
 						//System.out.println("machine penalty error");
 						System.exit(0);
 					}
@@ -324,7 +324,7 @@ public class FileParser {
 							// if the ASCII value of the letter is not within A-H, notify user and exit
 							if (lineArray[1] < 65 | lineArray[1] > 72 | lineArray[3] < 65 | lineArray[3] > 72) {
 								int[] forcedList = {};
-								int ignoreVal = -1;
+								//int ignoreVal = -1;
 								OutputWriter.writeFile(forcedList, 0, "ERROR: Invalid Machine/Task");
 								//System.out.println("invalid machine/task");
 								System.exit(0);
@@ -344,7 +344,7 @@ public class FileParser {
 							// if negative penalty val, notify and exit
 							if (Integer.parseInt(penaltyBuffer) < 0) {
 								int[] forcedList = {};
-								int ignoreVal = -1;
+								//int ignoreVal = -1;
 								OutputWriter.writeFile(forcedList, 0, "ERROR: Invalid Penalty");
 								//System.out.println("invalid penalty");
 								System.exit(0);
@@ -360,7 +360,7 @@ public class FileParser {
 		} catch (ArrayIndexOutOfBoundsException exception) {
 			//System.out.println("invalid machine/task");
 			int[] forcedList = {};
-			int ignoreVal = -1;
+			//int ignoreVal = -1;
 			OutputWriter.writeFile(forcedList, 0, "ERROR: Invalid Machine/Task");
 			exception.printStackTrace();
 			System.exit(0);
@@ -369,7 +369,7 @@ public class FileParser {
 		catch (Exception e) {
 			//System.out.println("Error while parsing input file");
 			int[] forcedList = {};
-			int ignoreVal = -1;
+			//int ignoreVal = -1;
 			OutputWriter.writeFile(forcedList, 0, "ERROR: Error while parrsing input file");
 			e.printStackTrace();
 			System.exit(0);

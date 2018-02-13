@@ -1,6 +1,8 @@
 package process;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import commons.OutputWriter;
 
@@ -20,6 +22,26 @@ public class HardConstraints{
 	// doHard function takes the "global" matrix, list of forced pairings, forbidden pairings and too near Hard
 	// constraints. doHard updates the "global" matrix of the Hard Constraints to be passed to soft constraints.
 	public int[][] doHard(int[][] mainArray, int[] forced, int[] forbidden, ArrayList<String> tooNear, String errorString) {
+		//for (int counter = 0; counter < forbidden.length; counter++) {
+		//	int position = forbidden[counter];
+		//	if (counter > 0) {
+				
+		//	}else {}
+		//}
+		
+		Set<Integer> forbiddenSet = new HashSet<Integer>();
+		Set<Integer> forcedSet = new HashSet<Integer>();
+		
+		for (int counter = 0; counter < 8; counter++) {
+			forbiddenSet.add(forbidden[counter]);
+			forcedSet.add(forced[counter]);
+		}
+		
+		if ((forbiddenSet.size()<8)||(forcedSet.size()<8)) {
+			OutputWriter.writeFile(forced, 0, "No valid solution possible!");
+			System.exit(0);
+		}
+		
 		for (int counter = 0; counter < forced.length; counter++) {
 			forcedPartial(mainArray, forced, forced[counter], counter);	
 		}
@@ -119,7 +141,7 @@ public class HardConstraints{
 	    			if (count == 7) { //if machine 8, forbidden next is machine 1.
 	    				if (isForced(count,firstTask,forcedList)) {
 	    					if (isForced(count+1, secondTask, forcedList)) {
-	    						OutputWriter.writeFile(forcedList, 0, "ERROR: Too near and Forced Task conflict!");
+	    						OutputWriter.writeFile(forcedList, 0, "No valid solution possible!");
 	    						System.exit(0);
 	    					}
 	    					else {	mainArray[0][secondTask] = -1;
@@ -128,7 +150,7 @@ public class HardConstraints{
 	    			}else {
 	    				if (isForced(count,firstTask, forcedList)) {
 	    					if (isForced(count+1, secondTask, forcedList)) {
-	    						OutputWriter.writeFile(forcedList, 0, "ERROR: Too near and Forced Task conflict!");
+	    						OutputWriter.writeFile(forcedList, 0, "No valid solution possible!");
 	    						System.exit(0);
 	    					}
 	    					else {	mainArray[count+1][secondTask] = -1;
@@ -152,9 +174,13 @@ public class HardConstraints{
 	//deals with forbidden task list.
 	private static void forbidden(int[][] mainArray, int[] forbidden, int forbiddenTask, int machine, int[] forcedList) {
 		// TODO Auto-generated method stub
-		int ignoreVal = -1;
+		//int ignoreVal = -1;
+		//for (int count = 0; count < 8; count++) {
+		//	int position = forbidden[count];
+		//	if (position == forbidden[count]) {}
+		//}
 		if (checkTaskBounds(forbiddenTask) == false) {
-			OutputWriter.writeFile(forcedList, 0, "ERROR: Forbidden Task out of bounds");
+			OutputWriter.writeFile(forcedList, 0, "No valid solution possible!");
 			//do nothing. go back to for loop
 			//System.out.println("ERROR: Task out of bounds");
 			System.exit(0);
@@ -202,7 +228,7 @@ public class HardConstraints{
 		for (int counter = 0; counter < mainArray.length; counter++) {
 			if (counter == forbiddenTask) {
 				if (isForced(machine, forbiddenTask, forcedList)) {
-					OutputWriter.writeFile(forcedList, 0, "ERROR: FORCED and FORBIDDEN HARD CONSTRAINTS CONFLICT");
+					OutputWriter.writeFile(forcedList, 0, "No valid solution possible!");
 					
 					//System.out.println("ERROR: FORCED and FORBIDDEN HARD CONSTRAINTS CONFLICT");
 					System.exit(0);
@@ -224,9 +250,9 @@ public class HardConstraints{
 		//deals with forced partial pairs
 		private static void forcedPartial(int[][] mainArray, int[] forcedList, int task, int machine) {
 			// TODO Auto-generated method stub
-			int ignoreVal = -1;
+			//int ignoreVal = -1;
 			if (checkTaskBounds(task) == false) {
-				OutputWriter.writeFile(forcedList, 0, "Error: Forced Task out of bounds!");
+				OutputWriter.writeFile(forcedList, 0, "No valid solution possible!");
 				//do nothing. go back to for loop
 				//System.out.print("Error: Task out of bounds!");
 				System.exit(0);
