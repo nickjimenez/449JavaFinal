@@ -332,7 +332,7 @@ public class FileParser {
 							if (lineArray[1] < 65 | lineArray[1] > 72 | lineArray[3] < 65 | lineArray[3] > 72) {
 								int[] forcedList = {};
 								//int ignoreVal = -1;
-								OutputWriter.writeFile(forcedList, 0, "ERROR: Invalid Machine/Task");
+								OutputWriter.writeFile(forcedList, 0, "invalid machine/task");
 								//System.out.println("invalid machine/task");
 								System.exit(0);
 							}
@@ -368,7 +368,7 @@ public class FileParser {
 			//System.out.println("invalid machine/task");
 			int[] forcedList = {};
 			//int ignoreVal = -1;
-			OutputWriter.writeFile(forcedList, 0, "ERROR: Invalid Machine/Task");
+			OutputWriter.writeFile(forcedList, 0, "invalid machine/task");
 			exception.printStackTrace();
 			System.exit(0);
 		}
