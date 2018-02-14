@@ -37,14 +37,33 @@ public class HardConstraints{
 			forcedSet.add(forced[counter]);
 		}
 		
-		if ((forbiddenSet.size()<8)||(forcedSet.size()<8)) {
-			OutputWriter.writeFile(forced, 0, "No valid solution possible!");
-			System.exit(0);
-		}
+		if (forcedSet.size() == 1) {
+			if (forcedSet.contains(-1)) {
+				for (int counter = 0; counter < forced.length; counter++) {
+					forcedPartial(mainArray, forced, forced[counter], counter);	
+				}
+			}else {
+				OutputWriter.writeFile(forced, 0, "No valid solution possible!");
+				System.exit(0);}
+		}//else {
+		//	for (int count = 0; count<forced.length; count++) {
+		//		int[] forcedConflict = {};
+		//		if (forcedConflict.length == 0) {forcedConflict[0]=forced[0];}
+		//		else if (forced[count] in forcedConflict) {
+					
+		//		}
+		//	}
+		//}
 		
-		for (int counter = 0; counter < forced.length; counter++) {
-			forcedPartial(mainArray, forced, forced[counter], counter);	
-		}
+		//if ((forbiddenSet.size()<8)||(forcedSet.size()<8)) {
+		//	if 
+		//	OutputWriter.writeFile(forced, 0, "No valid solution possible!");
+		//	System.exit(0);
+		//}
+		
+		//for (int counter = 0; counter < forced.length; counter++) {
+		//	forcedPartial(mainArray, forced, forced[counter], counter);	
+		//}
 		
 		for (int counter = 0; counter < forbidden.length; counter++) {
 			forbidden(mainArray, forbidden, forbidden[counter], counter, forced);
@@ -265,28 +284,28 @@ public class HardConstraints{
 			
 				switch (machine) {
 				case 0:
-					setForced(mainArray, 0, task);
+					setForced(mainArray, 0, task, forcedList);
 					break;
 				case 1:
-					setForced(mainArray, 1, task);
+					setForced(mainArray, 1, task, forcedList);
 					break;
 				case 2:
-					setForced(mainArray, 2, task);
+					setForced(mainArray, 2, task, forcedList);
 					break;
 				case 3:
-					setForced(mainArray, 3, task);
+					setForced(mainArray, 3, task, forcedList);
 					break;
 				case 4:
-					setForced(mainArray, 4, task);
+					setForced(mainArray, 4, task, forcedList);
 					break;
 				case 5:
-					setForced(mainArray, 5, task);
+					setForced(mainArray, 5, task, forcedList);
 					break;
 				case 6:
-					setForced(mainArray, 6, task);
+					setForced(mainArray, 6, task, forcedList);
 					break;
 				case 7:
-					setForced(mainArray, 7, task);
+					setForced(mainArray, 7, task, forcedList);
 					break;
 				}	
 			}
@@ -302,18 +321,39 @@ public class HardConstraints{
 		}
 
 		//sets forced pairs in "global" matrix
-		private static void setForced(int[][] mainArray, int machine, int task) {
+		private static void setForced(int[][] mainArray, int machine, int task, int[] forcedList) {
 			int ignoreVal = -1;
+			int[] ignoreList = {};
 			
 			for (int counter = 0; counter < mainArray.length; counter++) {
-				if (counter != machine) {
-					mainArray[counter][task] = ignoreVal;
-				}if (counter == task) {
-					mainArray[machine][counter]=mainArray[machine][counter];
+				//if (counter != task) {
+				//	mainArray[machine][counter] = ignoreVal;
+				//}
+				if (counter == task) {
+					if (isConflict(machine,task,forcedList)) {
+						OutputWriter.writeFile(ignoreList, 0, "No valid solution possible!");
+						System.exit(0);
+					}else {mainArray[machine][counter]=mainArray[machine][counter];}
 				}else {
 					mainArray[machine][counter] = ignoreVal;
 				}
 			}
+		}
+
+		private static boolean isConflict(int machine, int task, int[] forcedList) {
+			// TODO Auto-generated method stub
+			boolean forcedConflict = false;
+			int[] taskChecked = {};
+			for (int count = 0; count<forcedList.length;count++) {
+				if (forcedList[count]==task) {
+					//if (taskChecked.length==0) {taskChecked[0] = forcedList[count];}
+					//else {taskChecked[taskChecked.length] = forcedList[count];}
+					taskChecked[taskChecked.length] = forcedList[count];
+				}
+			}if (taskChecked.length>1) {forcedConflict = false;}
+			else {forcedConflict = true;}
+			
+			return forcedConflict;
 		}
 
 		//checks if tasks being assigned are within bounds (0-7)
