@@ -26,7 +26,7 @@ public class HardConstraints{
 		//	int position = forbidden[counter];
 		//	if (counter > 0) {
 				
-		//	}else {}
+		//	}else {}/
 		//}
 		
 		Set<Integer> forbiddenSet = new HashSet<Integer>();
