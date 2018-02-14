@@ -55,7 +55,7 @@ public class FileParser {
 							lineArray = line.toCharArray();
 							machineidx = Character.getNumericValue(lineArray[1] - 1);
 							taskLetter = lineArray[3];
-							if (forcedPartialAssignment[machineidx] == -1) {
+							if (forcedPartialAssignment[machineidx] == -1) {						
 								switch (taskLetter) {
 
 								case 'A':
@@ -90,6 +90,13 @@ public class FileParser {
 									OutputWriter.writeFile(forcedList, 0, "invalid machine/task");
 									System.exit(0);
 								}
+								//switch(forcedConflict(forcedPartialAssignment)) {
+								//case 0:
+								//	break;
+								//case 1:
+								//	OutputWriter.writeFile(forcedPartialAssignment, 0, "No valid solution possible!");
+								//	System.exit(0);;
+								//}
 							} 
 							
 							// if a machine already has a task
@@ -135,7 +142,7 @@ public class FileParser {
 							continue;
 						} 
 						
-						// place index of appropriate letter in array at index of appropriate machine
+						// pplace index of appropriate letter in array at index of appropriate machine
 						else {
 							lineArray = line.toCharArray();
 							machineidx = Character.getNumericValue(lineArray[1]) - 1;
@@ -376,4 +383,11 @@ public class FileParser {
 		}
 
 	}
+
+	//private int forcedConflict(int[] forcedPartialAssignment) {
+		// TODO Auto-generated method stub
+	//	int isConflict = 0;
+		/////
+	//	return isConflict;
+	//}
 }

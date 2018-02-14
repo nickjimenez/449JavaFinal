@@ -45,6 +45,15 @@ public class HardConstraints{
 			}else {
 				OutputWriter.writeFile(forced, 0, "No valid solution possible!");
 				System.exit(0);}
+		}if (forbiddenSet.size() < 2){
+			if (forbiddenSet.equals(-1)) {
+				for (int counter = 0; counter < forbidden.length; counter++) {
+					forbidden(mainArray, forbidden, forbidden[counter], counter, forced);
+				}
+			}else {
+				OutputWriter.writeFile(forced, 0, "No valid solution possible!");
+				System.exit(0);
+			}
 		}//else {
 		//	for (int count = 0; count<forced.length; count++) {
 		//		int[] forcedConflict = {};
@@ -65,9 +74,9 @@ public class HardConstraints{
 		//	forcedPartial(mainArray, forced, forced[counter], counter);	
 		//}
 		
-		for (int counter = 0; counter < forbidden.length; counter++) {
-			forbidden(mainArray, forbidden, forbidden[counter], counter, forced);
-			}
+		//for (int counter = 0; counter < forbidden.length; counter++) {
+		//	forbidden(mainArray, forbidden, forbidden[counter], counter, forced);
+		//	}
 		
 		if (tooNear.size()>0) {
 			tooNearRead(mainArray, tooNear, forced);
