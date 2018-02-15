@@ -279,7 +279,14 @@ public class FileParser {
 								// penalty value in the buffer, we can assume
 								// that we have calculated the penalty for the
 								// current task
-								if (lineArray[penaltyColumn] == ' ' & !(penaltyBuffer.isEmpty())) {
+								if (lineArray[penaltyColumn] == '.') {
+									int[] forcedList = {};
+									//int ignoreVal = -1;
+									OutputWriter.writeFile(forcedList, 0, "invalid penalty");
+									//System.out.println("invalid penalty");
+									System.exit(0);
+								}
+								else if (lineArray[penaltyColumn] == ' ' & !(penaltyBuffer.isEmpty())) {
 									if (Integer.parseInt(penaltyBuffer) < 0) {
 										int[] forcedList = {};
 										//int ignoreVal = -1;
@@ -364,7 +371,7 @@ public class FileParser {
 							if (lineArray[1] < 65 | lineArray[1] > 72 | lineArray[3] < 65 | lineArray[3] > 72) {
 								int[] forcedList = {};
 								//int ignoreVal = -1;
-								OutputWriter.writeFile(forcedList, 0, "invalid machine/task");
+								OutputWriter.writeFile(forcedList, 0, "invalid task");
 								//System.out.println("invalid machine/task");
 								System.exit(0);
 							}
@@ -381,14 +388,24 @@ public class FileParser {
 							}
 							
 							// if negative penalty val, notify and exit
-							if (Integer.parseInt(penaltyBuffer) < 0) {
+							try {
+								if (Integer.parseInt(penaltyBuffer) < 0) {
+									int[] forcedList = {};
+									//int ignoreVal = -1;
+									OutputWriter.writeFile(forcedList, 0, "Invalid Penalty");
+									//System.out.println("invalid penalty");
+									System.exit(0);
+								}
+								tooNearPenalties.add(Integer.parseInt(penaltyBuffer));
+							} 
+							catch (Exception e) {
 								int[] forcedList = {};
 								//int ignoreVal = -1;
 								OutputWriter.writeFile(forcedList, 0, "Invalid Penalty");
 								//System.out.println("invalid penalty");
 								System.exit(0);
 							}
-							tooNearPenalties.add(Integer.parseInt(penaltyBuffer));
+							
 						}
 						
 					}
@@ -409,7 +426,7 @@ public class FileParser {
 			int[] forcedList = {};
 			//int ignoreVal = -1;
 			OutputWriter.writeFile(forcedList, 0, "invalid machine/task");
-			exception.printStackTrace();
+			//exception.printStackTrace();
 			System.exit(0);
 		}
 
