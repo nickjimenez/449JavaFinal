@@ -21,6 +21,11 @@ public class FileParser {
 		String tooNear1;
 		String tooNear2;
 		int tooNearLetterVal;
+//		boolean forcedpartialassignmentEntered = false;
+//		boolean forbiddenmachineEntered = false;
+//		boolean tooneartasksEntered = false;
+//		boolean machinepenaltiesEntered = false;
+//		boolean toonearpenalitiesEntered = false;
 
 		// attempt to open and parse the penalty matrix of the file
 		try {
@@ -28,15 +33,27 @@ public class FileParser {
 
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 
+			line = bufferedReader.readLine();
 			// continue to read lines until the end of the file
-			while ((line = bufferedReader.readLine()) != null) {
+			while (line != null) {
 
 				// replacing all white space on the line with the empty string
 				line = line.replaceAll("\\s", "");
-
+				
+				if (line.equals("Name:")) {
+					line = bufferedReader.readLine();
+					line = bufferedReader.readLine();
+					continue;
+				}
+				else if (line.equals("")) {
+					line = bufferedReader.readLine();
+					continue;
+				}
+				
 				// if we reach the forced partial assignment hard constraint
 				if (line.equals("forcedpartialassignment:")) {
 
+					//forcedpartialassignmentEntered = true;
 					// placeholder before filling array
 					for (int i = 0; i < 8; i++) {
 						forcedPartialAssignment[i] = -1;
@@ -55,6 +72,11 @@ public class FileParser {
 							lineArray = line.toCharArray();
 							machineidx = Character.getNumericValue(lineArray[1] - 1);
 							taskLetter = lineArray[3];
+//							if (!(lineArray[0] == '(' && lineArray[4] == ')' && lineArray[2] == ',')) {
+//								int[] forcedList = {};
+//								OutputWriter.writeFile(forcedList, 0, "Error while parsing input file");
+//								System.exit(0);
+//							}
 							if (forcedPartialAssignment[machineidx] == -1) {						
 								switch (taskLetter) {
 
@@ -129,6 +151,7 @@ public class FileParser {
 				// if we reach forbidden machine hard constraints
 				if (line.equals("forbiddenmachine:")) {
 
+					//forbiddenmachineEntered = true;
 					// placeholder before we fill array
 					for (int i = 0; i < 8; i++) {
 						forbiddenMachine[i] = -1;
@@ -147,6 +170,11 @@ public class FileParser {
 							lineArray = line.toCharArray();
 							machineidx = Character.getNumericValue(lineArray[1]) - 1;
 							taskLetter = lineArray[3];
+//							if (!(lineArray[0] == '(' && lineArray[4] == ')' && lineArray[2] == ',')) {
+//								int[] forcedList = {};
+//								OutputWriter.writeFile(forcedList, 0, "Error while parsing input file");
+//								System.exit(0);
+//							}
 							switch (taskLetter) {
 
 							case 'A':
@@ -189,6 +217,7 @@ public class FileParser {
 				// if we reach too-near tasks hard constraints
 				if (line.equals("too-neartasks:")) {
 
+					//tooneartasksEntered = true;
 					// while we dont reach the penalty matrix
 					while (!(line = bufferedReader.readLine().replaceAll("\\s", "")).equals("machinepenalties:")) {
 
@@ -221,6 +250,7 @@ public class FileParser {
 				// matrix
 				if (line.equals("machinepenalties:")) {
 
+					//machinepenaltiesEntered = true;
 					// while we havent reached the last soft constraint
 					while (!(line = bufferedReader.readLine()).equals("too-near penalities")) {
 
@@ -230,6 +260,7 @@ public class FileParser {
 						if (line.replaceAll("\\s", "").equals("")) {
 							continue;
 						}
+						
 
 						// convert the line to an array in order to access
 						// individual penalty value
@@ -314,6 +345,7 @@ public class FileParser {
 				// if we reach the too-near penalties contraints
 				if (line.equals("too-near penalities")) {
 					
+					//toonearpenalitiesEntered = true;
 					// while there are still lines to read
 					while ((line = bufferedReader.readLine()) != null) {
 						
@@ -352,7 +384,7 @@ public class FileParser {
 							if (Integer.parseInt(penaltyBuffer) < 0) {
 								int[] forcedList = {};
 								//int ignoreVal = -1;
-								OutputWriter.writeFile(forcedList, 0, "ERROR: Invalid Penalty");
+								OutputWriter.writeFile(forcedList, 0, "Invalid Penalty");
 								//System.out.println("invalid penalty");
 								System.exit(0);
 							}
@@ -361,6 +393,14 @@ public class FileParser {
 						
 					}
 				}
+				else {
+					int[] forcedList = {};
+					//int ignoreVal = -1;
+					OutputWriter.writeFile(forcedList, 0, "Error while parsing input file");
+					//System.out.println("invalid penalty");
+					System.exit(0);
+				}
+				line = bufferedReader.readLine();
 
 			}
 			bufferedReader.close();
@@ -377,10 +417,15 @@ public class FileParser {
 			//System.out.println("Error while parsing input file");
 			int[] forcedList = {};
 			//int ignoreVal = -1;
-			OutputWriter.writeFile(forcedList, 0, "ERROR: Error while parrsing input file");
+			OutputWriter.writeFile(forcedList, 0, "Error while parsing input file");
 			e.printStackTrace();
 			System.exit(0);
 		}
+		//if (!(forcedpartialassignmentEntered && forbiddenmachineEntered && tooneartasksEntered && machinepenaltiesEntered && toonearpenalitiesEntered)) {
+			
+		//	int[] forcedList = {};
+		//	OutputWriter.writeFile(forcedList, 0, "Error while parrsing input file");
+		//}
 
 	}
 
