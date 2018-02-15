@@ -72,11 +72,11 @@ public class FileParser {
 							lineArray = line.toCharArray();
 							machineidx = Character.getNumericValue(lineArray[1] - 1);
 							taskLetter = lineArray[3];
-//							if (!(lineArray[0] == '(' && lineArray[4] == ')' && lineArray[2] == ',')) {
-//								int[] forcedList = {};
-//								OutputWriter.writeFile(forcedList, 0, "Error while parsing input file");
-//								System.exit(0);
-//							}
+							if (!(lineArray[0] == '(' && lineArray[4] == ')' && lineArray[2] == ',')) {
+								int[] forcedList = {};
+								OutputWriter.writeFile(forcedList, 0, "Error while parsing input file");
+								System.exit(0);
+							}
 							if (forcedPartialAssignment[machineidx] == -1) {						
 								switch (taskLetter) {
 
@@ -170,11 +170,11 @@ public class FileParser {
 							lineArray = line.toCharArray();
 							machineidx = Character.getNumericValue(lineArray[1]) - 1;
 							taskLetter = lineArray[3];
-//							if (!(lineArray[0] == '(' && lineArray[4] == ')' && lineArray[2] == ',')) {
-//								int[] forcedList = {};
-//								OutputWriter.writeFile(forcedList, 0, "Error while parsing input file");
-//								System.exit(0);
-//							}
+							if (!(lineArray[0] == '(' && lineArray[4] == ')' && lineArray[2] == ',')) {
+								int[] forcedList = {};
+								OutputWriter.writeFile(forcedList, 0, "Error while parsing input file");
+								System.exit(0);
+							}
 							switch (taskLetter) {
 
 							case 'A':
@@ -230,6 +230,12 @@ public class FileParser {
 						else {
 							lineArray = line.toCharArray();
 							
+							if (!(lineArray[0] == '(' && lineArray[4] == ')' && lineArray[2] == ',')) {
+								int[] forcedList = {};
+								OutputWriter.writeFile(forcedList, 0, "Error while parsing input file");
+								System.exit(0);
+							}
+							
 							// if the ASCII value of the letter is not within A-H, notify user and exit
 							if (lineArray[1] < 65 | lineArray[1] > 72 | lineArray[3] < 65 | lineArray[3] > 72) {
 								//System.out.println("invalid machine/task");
@@ -266,6 +272,12 @@ public class FileParser {
 						// individual penalty value
 						lineArray = line.toCharArray();
 
+						if (!(lineArray[0] > 9 | lineArray[0] < 0)) {
+							int[] forcedList = {};
+							OutputWriter.writeFile(forcedList, 0, "Error while parsing input file");
+							System.exit(0);
+						}
+						
 						// reset column counter, penaltyBuffer, and task counter
 						penaltyColumn = 0;
 						penaltyBuffer = "";
@@ -366,6 +378,12 @@ public class FileParser {
 						// place the triples into an arrayList, using index of the tasks instead of letters
 						else {
 							lineArray = line.toCharArray();
+							
+							if (!(lineArray[0] == '(' && lineArray[2] == ',' && lineArray[4] == ',' && lineArray[6] == ')')) {
+								int[] forcedList = {};
+								OutputWriter.writeFile(forcedList, 0, "Error while parsing input file");
+								System.exit(0);
+							}
 							
 							// if the ASCII value of the letter is not within A-H, notify user and exit
 							if (lineArray[1] < 65 | lineArray[1] > 72 | lineArray[3] < 65 | lineArray[3] > 72) {
