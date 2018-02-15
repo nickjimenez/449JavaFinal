@@ -52,20 +52,31 @@ public class Tasker {
 		return promisingCost;
 	}
 
+	// Calculates penalty for assignment that have tasks that are too near to each other
 	private static int calcTooNearPenalties(Node child, ArrayList<Integer> tooNearArray) {
 
-		int penality = 0;
-
-		for (int i = 0; i < tooNearArray.size() / 3; i += 3) {
-			if (child.task == tooNearArray.get(i + 1) && child.parent.task == tooNearArray.get(i)) {
-				penality = tooNearArray.get(i + 2);
-			}
+		int penalty = 0;
+		
+		// Iterates through tooNearArray and checks if an assignment is too near each other
+		for (int i = 0; i <= tooNearArray.size() - 3; i+=3) {
+			if (child.task == tooNearArray.get(i + 1) && child.parent.task == tooNearArray.get(i))
+				penalty = tooNearArray.get(i + 2);
+		
+			// Includes checking for first machine and last machine
+			if (child.mach == Config.GLOBAL_SIZE - 1) {
+				Node firstMach = child;
+				for (int j = Config.GLOBAL_SIZE - 2; j >= 0; j--)
+					firstMach = firstMach.parent;
+				if (firstMach.task == tooNearArray.get(i + 1) && child.parent.task == tooNearArray.get(i))
+					penalty += tooNearArray.get(i + 2);
+					
+			}	
 		}
 
-		return penality;
+		return penalty;
 	}
 	
-	// Displays solution
+	// Outputs solution
 	private static void displaySolution(int[][] costMatrix, Node activeNode, String errorString) {
 		
 		int[] solutionArray = new int[costMatrix.length];
@@ -99,7 +110,6 @@ public class Tasker {
 		while (!activeNodesArray.isEmpty()) {
 			// Finds the live node with least estimated cost and deletes it from list of live nodes
 			Node activeNode = activeNodesArray.poll();
-			//activeNodesArray.clear();
 			
 			// Goes to next machine 
 			int currMach = activeNode.mach + 1;
