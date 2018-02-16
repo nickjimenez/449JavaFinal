@@ -7,7 +7,7 @@ import commons.OutputWriter;
 
 public class FileParser {
 
-	public void openAndParse(int[][] penaltyMatrix, int[] forcedPartialAssignment, int[] forbiddenMachine,
+	public void openAndParse(int[][] penaltyMatrix, int[] forcedPartialAssignment, ArrayList<ArrayList<Integer>> forbiddenMachine,
 			ArrayList<String> tooNearTasks, ArrayList<Integer> tooNearPenalties, String fileName) {
 
 		String line = null;
@@ -153,9 +153,9 @@ public class FileParser {
 
 					//forbiddenmachineEntered = true;
 					// placeholder before we fill array
-					for (int i = 0; i < 8; i++) {
-						forbiddenMachine[i] = -1;
-					}
+//					for (int i = 0; i < 8; i++) {
+//						forbiddenMachine[i] = -1;
+//					}
 
 					// while we dont reach the next set of hard constraints
 					while (!(line = bufferedReader.readLine().replaceAll("\\s", "")).equals("too-neartasks:")) {
@@ -178,28 +178,29 @@ public class FileParser {
 							switch (taskLetter) {
 
 							case 'A':
-								forbiddenMachine[machineidx] = 0;
+								//forbiddenMachine[machineidx] = 0;
+								forbiddenMachine.get(machineidx).add(0);
 								break;
 							case 'B':
-								forbiddenMachine[machineidx] = 1;
+								forbiddenMachine.get(machineidx).add(1);
 								break;
 							case 'C':
-								forbiddenMachine[machineidx] = 2;
+								forbiddenMachine.get(machineidx).add(2);
 								break;
 							case 'D':
-								forbiddenMachine[machineidx] = 3;
+								forbiddenMachine.get(machineidx).add(3);
 								break;
 							case 'E':
-								forbiddenMachine[machineidx] = 4;
+								forbiddenMachine.get(machineidx).add(4);
 								break;
 							case 'F':
-								forbiddenMachine[machineidx] = 5;
+								forbiddenMachine.get(machineidx).add(5);
 								break;
 							case 'G':
-								forbiddenMachine[machineidx] = 6;
+								forbiddenMachine.get(machineidx).add(6);
 								break;
 							case 'H':
-								forbiddenMachine[machineidx] = 7;
+								forbiddenMachine.get(machineidx).add(7);
 								break;
 							default:
 								int[] forcedList = {};

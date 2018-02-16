@@ -42,12 +42,20 @@ public class MySystem {
 		Config.OUTPUT_FILENAME = outputFileName;
 		int[][] penaltyMatrix = new int[Config.GLOBAL_SIZE][Config.GLOBAL_SIZE];
 		int[] forcedPartialAssignment = new int[Config.GLOBAL_SIZE];
-		int[] forbiddenMachine = new int[Config.GLOBAL_SIZE];
+		ArrayList<ArrayList<Integer>> forbiddenMachine = new ArrayList<ArrayList<Integer>>(Config.GLOBAL_SIZE);
 		ArrayList<Integer> tooNearPenalties = new ArrayList<Integer>();
 		ArrayList<String> tooNearTasks = new ArrayList<String>();
+		
+		//instantiate 2d arraylist
+		 for(int i = 0; i < Config.GLOBAL_SIZE; i++)  {
+			 forbiddenMachine.add(i, new ArrayList<Integer>());
+		    }
 
-		FileParser setup = new FileParser();
+		FileParser setup = new FileParser();	
 		setup.openAndParse(penaltyMatrix, forcedPartialAssignment, forbiddenMachine, tooNearTasks, tooNearPenalties, inputFileName);
+		
+//		int[] forbiddenMachine = new int[Config.GLOBAL_SIZE];
+		
 		HardConstraints hard = new HardConstraints();
 		hard.doHard(penaltyMatrix, forcedPartialAssignment, forbiddenMachine, tooNearTasks, errorString);
 

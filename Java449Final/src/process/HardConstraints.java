@@ -22,7 +22,7 @@ public class HardConstraints{
 	// change
 	// doHard function takes the "global" matrix, list of forced pairings, forbidden pairings and too near Hard
 	// constraints. doHard updates the "global" matrix of the Hard Constraints to be passed to soft constraints.
-	public int[][] doHard(int[][] mainArray, int[] forced, int[] forbidden, ArrayList<String> tooNear, String errorString) {
+	public int[][] doHard(int[][] mainArray, int[] forced, ArrayList<ArrayList<Integer>> forbidden, ArrayList<String> tooNear, String errorString) {
 		
 		Set<Integer> forbiddenSet = new HashSet<Integer>();
 		Set<Integer> forcedSet = new HashSet<Integer>();
