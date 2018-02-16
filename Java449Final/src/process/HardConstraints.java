@@ -55,6 +55,22 @@ public class HardConstraints{
 				OutputWriter.writeFile(forced, 0, "No valid solution possible!");
 				System.exit(0);
 			}
+		}else {
+			for (ArrayList<Integer> mach : forbidden) {
+				
+				int machIndex = forbidden.indexOf(mach);
+				
+				if (mach.size() == 8) {
+					
+					OutputWriter.writeFile(forced, 0, "No valid solution possible!");
+					System.exit(0);
+					
+				}
+				
+				for (int forbiddenTask : mach)
+					forbidden(mainArray, forbiddenTask, machIndex, forced);
+				
+			}
 		}
 		
 		if (forcedSet.size() == 1) {
