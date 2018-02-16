@@ -27,8 +27,6 @@ public class HardConstraints{
 		Set<Integer> forbiddenSet = new HashSet<Integer>();
 		Set<Integer> forcedSet = new HashSet<Integer>();
 		
-		
-		
 		for (int counter = 0; counter < 8; counter++) {
 			//forbiddenSet.addAll(forbidden.get(counter));
 			forcedSet.add(forced[counter]);
@@ -49,11 +47,14 @@ public class HardConstraints{
 			}
 		}		
 		
+		// element in 2D forbidden are forbidden tasks
+		
+		//forbidden(mainArray, forbidden);
 		
 		if (forbiddenSet.size() == 1){
 			if (forbiddenSet.contains(-1)) {
-				for (int counter = 0; counter < forbidden.length; counter++) {
-					forbidden(mainArray, forbidden, forbidden[counter], counter, forced);
+				for (int counter = 0; counter < forbidden.size(); counter++) {
+					forbidden(mainArray, forbidden, forbidden.get(counter), counter, forced);
 				}
 			}else {
 				OutputWriter.writeFile(forced, 0, "No valid solution possible!");
