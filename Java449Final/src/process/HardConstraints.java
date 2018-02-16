@@ -27,8 +27,10 @@ public class HardConstraints{
 		Set<Integer> forbiddenSet = new HashSet<Integer>();
 		Set<Integer> forcedSet = new HashSet<Integer>();
 		
+		
+		
 		for (int counter = 0; counter < 8; counter++) {
-			forbiddenSet.add(forbidden[counter]);
+			//forbiddenSet.addAll(forbidden.get(counter));
 			forcedSet.add(forced[counter]);
 		}
 		
@@ -49,7 +51,7 @@ public class HardConstraints{
 		
 		
 		if (forbiddenSet.size() == 1){
-			if (forbiddenSet.equals(-1)) {
+			if (forbiddenSet.contains(-1)) {
 				for (int counter = 0; counter < forbidden.length; counter++) {
 					forbidden(mainArray, forbidden, forbidden[counter], counter, forced);
 				}
@@ -65,15 +67,25 @@ public class HardConstraints{
 			
 			
 		if (tooNear.size()>0) {
-			tooNearRead(mainArray, tooNear, forced);
+			tooNearRead(mainArray, tooNear, forced, forcedSet);
 		}
 		return mainArray;
 	}
 
 	//takes the too near tasks array list and converts it to integers for easier processing.
-	private static void tooNearRead(int[][] mainArray, ArrayList<String> tooNearArray, int[] forcedList) {
+	private static void tooNearRead(int[][] mainArray, ArrayList<String> tooNearArray, int[] forcedList, Set<Integer> forcedSet) {
 		// TODO Auto-generated method stub
 		String tooNearStringPair;
+		
+		// 6 forced assigned
+		if ((forcedSet.size()==7)&&(tooNearArray.size()==2)) {
+			String reverse = new StringBuffer(tooNearArray.get(0)).reverse().toString();
+			if (tooNearArray.get(1).equals(reverse)) {
+				OutputWriter.writeFile(forcedList, 0, "No valid solution possible!");
+				System.exit(0);
+			}
+		}
+		
 		for (int count = 0; count < tooNearArray.size(); count++) {
 			tooNearStringPair = tooNearArray.get(count);
 			tooNearComp(mainArray, tooNearStringPair, tooNearArray, forcedList);
@@ -155,7 +167,7 @@ public class HardConstraints{
 	private static void setTooNear(int[][] mainArray, int firstTask, int secondTask, ArrayList<String> tooNearArray, int[] forcedList) {
 		// TODO Auto-generated method stub
 	    for (int count = 0 ; count < 8; count++) {
-	    		if(!IntStream.of(forcedList).anyMatch(i -> i == firstTask)) {
+	    		if(forcedList[count] == firstTask) {
 	    		//if(mainArray[count][firstTask] != -1){ //checks if machine has already been forced to a task. 
 	    			//if it hasn't, go in. else ignore.
 	    			if (count == 7) { //if machine 8, forbidden next is machine 1.
@@ -206,6 +218,8 @@ public class HardConstraints{
 			System.exit(0);
 			
 		}
+		
+		//////////////////////////////////////////////////////////////////////////////
 		if (forbiddenTask == -1) {
 			//do nothing go back to loop
 			setNoChange(mainArray, machine);
@@ -271,6 +285,8 @@ public class HardConstraints{
 		private static void forcedPartial(int[][] mainArray, int[] forcedList, int task, int machine) {
 			// TODO Auto-generated method stub
 			//int ignoreVal = -1;
+			
+			
 			if (checkTaskBounds(task) == false) {
 				OutputWriter.writeFile(forcedList, 0, "No valid solution possible!");
 				//do nothing. go back to for loop
@@ -327,9 +343,9 @@ public class HardConstraints{
 			int[] ignoreList = {};
 			
 			for (int counter = 0; counter < mainArray.length; counter++) {
-				//if (counter != task) {
-				//	mainArray[machine][counter] = ignoreVal;
-				//}
+				if (counter != machine) {
+					mainArray[counter][task] = ignoreVal;
+				}
 				if (counter == task) {
 					if (isConflict(machine,task,forcedList)) {
 						OutputWriter.writeFile(ignoreList, 0, "No valid solution possible!");
