@@ -3,6 +3,7 @@ package process;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 import commons.OutputWriter;
 
@@ -18,22 +19,16 @@ import java.lang.String;
  * Final Version
  */
 public class HardConstraints{
-	
+	// change
 	// doHard function takes the "global" matrix, list of forced pairings, forbidden pairings and too near Hard
 	// constraints. doHard updates the "global" matrix of the Hard Constraints to be passed to soft constraints.
-	public int[][] doHard(int[][] mainArray, int[] forced, int[] forbidden, ArrayList<String> tooNear, String errorString) {
-		//for (int counter = 0; counter < forbidden.length; counter++) {
-		//	int position = forbidden[counter];
-		//	if (counter > 0) {
-				
-		//	}else {}/
-		//}
+	public int[][] doHard(int[][] mainArray, int[] forced, ArrayList<ArrayList<Integer>> forbidden, ArrayList<String> tooNear, String errorString) {
 		
 		Set<Integer> forbiddenSet = new HashSet<Integer>();
 		Set<Integer> forcedSet = new HashSet<Integer>();
 		
 		for (int counter = 0; counter < 8; counter++) {
-			forbiddenSet.add(forbidden[counter]);
+			//forbiddenSet.addAll(forbidden.get(counter));
 			forcedSet.add(forced[counter]);
 		}
 		
@@ -44,51 +39,54 @@ public class HardConstraints{
 				}
 			}else {
 				OutputWriter.writeFile(forced, 0, "No valid solution possible!");
-				System.exit(0);}
-		}if (forbiddenSet.size() < 2){
-			if (forbiddenSet.equals(-1)) {
-				for (int counter = 0; counter < forbidden.length; counter++) {
-					forbidden(mainArray, forbidden, forbidden[counter], counter, forced);
+				System.exit(0);
+			}
+		}else {
+			for (int counter = 0; counter < forced.length; counter++) {
+				forcedPartial(mainArray, forced, forced[counter], counter);
+			}
+		}		
+		
+		// element in 2D forbidden are forbidden tasks
+		
+		//forbidden(mainArray, forbidden);
+		
+		if (forbiddenSet.size() == 1){
+			if (forbiddenSet.contains(-1)) {
+				for (int counter = 0; counter < forbidden.size(); counter++) {
+					forbidden(mainArray, forbidden, forbidden.get(counter), counter, forced);
 				}
 			}else {
 				OutputWriter.writeFile(forced, 0, "No valid solution possible!");
 				System.exit(0);
 			}
-		}//else {
-		//	for (int count = 0; count<forced.length; count++) {
-		//		int[] forcedConflict = {};
-		//		if (forcedConflict.length == 0) {forcedConflict[0]=forced[0];}
-		//		else if (forced[count] in forcedConflict) {
-					
-		//		}
-		//	}
-		//}
-		
-		//if ((forbiddenSet.size()<8)||(forcedSet.size()<8)) {
-		//	if 
-		//	OutputWriter.writeFile(forced, 0, "No valid solution possible!");
-		//	System.exit(0);
-		//}
-		
-		//for (int counter = 0; counter < forced.length; counter++) {
-		//	forcedPartial(mainArray, forced, forced[counter], counter);	
-		//}
-		
-		//for (int counter = 0; counter < forbidden.length; counter++) {
-		//	forbidden(mainArray, forbidden, forbidden[counter], counter, forced);
-		//	}
-		
-		if (tooNear.size()>0) {
-			tooNearRead(mainArray, tooNear, forced);
+		}else {
+			for (int counter = 0; counter < forbidden.length; counter++) {
+				forbidden(mainArray, forbidden, forbidden[counter], counter, forced);
+			}
 		}
-		
+			
+			
+		if (tooNear.size()>0) {
+			tooNearRead(mainArray, tooNear, forced, forcedSet);
+		}
 		return mainArray;
 	}
 
 	//takes the too near tasks array list and converts it to integers for easier processing.
-	private static void tooNearRead(int[][] mainArray, ArrayList<String> tooNearArray, int[] forcedList) {
+	private static void tooNearRead(int[][] mainArray, ArrayList<String> tooNearArray, int[] forcedList, Set<Integer> forcedSet) {
 		// TODO Auto-generated method stub
 		String tooNearStringPair;
+		
+		// 6 forced assigned
+		if ((forcedSet.size()==7)&&(tooNearArray.size()==2)) {
+			String reverse = new StringBuffer(tooNearArray.get(0)).reverse().toString();
+			if (tooNearArray.get(1).equals(reverse)) {
+				OutputWriter.writeFile(forcedList, 0, "No valid solution possible!");
+				System.exit(0);
+			}
+		}
+		
 		for (int count = 0; count < tooNearArray.size(); count++) {
 			tooNearStringPair = tooNearArray.get(count);
 			tooNearComp(mainArray, tooNearStringPair, tooNearArray, forcedList);
@@ -125,6 +123,9 @@ public class HardConstraints{
 		case 'H':
 			tooNearComp2(mainArray, 7, tooNearString.charAt(1), tooNearArray, forcedList);
 			break;
+		default:
+			OutputWriter.writeFile(forcedList, 0, "No valid solution possible!");
+			System.exit(0);
 		}
 	}
 	
@@ -156,6 +157,9 @@ public class HardConstraints{
 		case 'H':
 			setTooNear(mainArray, firstTask, 7, tooNearArray, forcedList);
 			break;
+		default:
+			OutputWriter.writeFile(forcedList, 0, "No valid solution possible!");
+			System.exit(0);
 		}
 		
 	}
@@ -164,7 +168,8 @@ public class HardConstraints{
 	private static void setTooNear(int[][] mainArray, int firstTask, int secondTask, ArrayList<String> tooNearArray, int[] forcedList) {
 		// TODO Auto-generated method stub
 	    for (int count = 0 ; count < 8; count++) {
-	    		if(mainArray[count][firstTask] != -1){ //checks if machine has already been forced to a task. 
+	    		if(forcedList[count] == firstTask) {
+	    		//if(mainArray[count][firstTask] != -1){ //checks if machine has already been forced to a task. 
 	    			//if it hasn't, go in. else ignore.
 	    			if (count == 7) { //if machine 8, forbidden next is machine 1.
 	    				if (isForced(count,firstTask,forcedList)) {
@@ -214,6 +219,8 @@ public class HardConstraints{
 			System.exit(0);
 			
 		}
+		
+		//////////////////////////////////////////////////////////////////////////////
 		if (forbiddenTask == -1) {
 			//do nothing go back to loop
 			setNoChange(mainArray, machine);
@@ -279,6 +286,8 @@ public class HardConstraints{
 		private static void forcedPartial(int[][] mainArray, int[] forcedList, int task, int machine) {
 			// TODO Auto-generated method stub
 			//int ignoreVal = -1;
+			
+			
 			if (checkTaskBounds(task) == false) {
 				OutputWriter.writeFile(forcedList, 0, "No valid solution possible!");
 				//do nothing. go back to for loop
@@ -335,9 +344,9 @@ public class HardConstraints{
 			int[] ignoreList = {};
 			
 			for (int counter = 0; counter < mainArray.length; counter++) {
-				//if (counter != task) {
-				//	mainArray[machine][counter] = ignoreVal;
-				//}
+				if (counter != machine) {
+					mainArray[counter][task] = ignoreVal;
+				}
 				if (counter == task) {
 					if (isConflict(machine,task,forcedList)) {
 						OutputWriter.writeFile(ignoreList, 0, "No valid solution possible!");
@@ -349,18 +358,20 @@ public class HardConstraints{
 			}
 		}
 
+		
+		// checks if 
 		private static boolean isConflict(int machine, int task, int[] forcedList) {
 			// TODO Auto-generated method stub
 			boolean forcedConflict = false;
-			int[] taskChecked = {};
+			ArrayList<Integer> taskChecked = new ArrayList<Integer>();
 			for (int count = 0; count<forcedList.length;count++) {
 				if (forcedList[count]==task) {
 					//if (taskChecked.length==0) {taskChecked[0] = forcedList[count];}
 					//else {taskChecked[taskChecked.length] = forcedList[count];}
-					taskChecked[taskChecked.length] = forcedList[count];
+					taskChecked.add(forcedList[count]);
 				}
-			}if (taskChecked.length>1) {forcedConflict = false;}
-			else {forcedConflict = true;}
+			}if (taskChecked.size() > 1) {forcedConflict = true;}
+			else {forcedConflict = false;}
 			
 			return forcedConflict;
 		}
