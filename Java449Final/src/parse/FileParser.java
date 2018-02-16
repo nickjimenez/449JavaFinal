@@ -416,7 +416,7 @@ public class FileParser {
 								if (Integer.parseInt(penaltyBuffer) < 0) {
 									int[] forcedList = {};
 									//int ignoreVal = -1;
-									OutputWriter.writeFile(forcedList, 0, "Invalid Penalty");
+									OutputWriter.writeFile(forcedList, 0, "invalid penalty");
 									//System.out.println("invalid penalty");
 									System.exit(0);
 								}
@@ -425,7 +425,7 @@ public class FileParser {
 							catch (Exception e) {
 								int[] forcedList = {};
 								//int ignoreVal = -1;
-								OutputWriter.writeFile(forcedList, 0, "Invalid Penalty");
+								OutputWriter.writeFile(forcedList, 0, "invalid penalty");
 								//System.out.println("invalid penalty");
 								System.exit(0);
 							}
