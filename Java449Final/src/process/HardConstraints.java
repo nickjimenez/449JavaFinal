@@ -18,16 +18,10 @@ import java.lang.String;
  * Final Version
  */
 public class HardConstraints{
-	
+	// change
 	// doHard function takes the "global" matrix, list of forced pairings, forbidden pairings and too near Hard
 	// constraints. doHard updates the "global" matrix of the Hard Constraints to be passed to soft constraints.
 	public int[][] doHard(int[][] mainArray, int[] forced, int[] forbidden, ArrayList<String> tooNear, String errorString) {
-		//for (int counter = 0; counter < forbidden.length; counter++) {
-		//	int position = forbidden[counter];
-		//	if (counter > 0) {
-				
-		//	}else {}/
-		//}
 		
 		Set<Integer> forbiddenSet = new HashSet<Integer>();
 		Set<Integer> forcedSet = new HashSet<Integer>();
@@ -44,8 +38,16 @@ public class HardConstraints{
 				}
 			}else {
 				OutputWriter.writeFile(forced, 0, "No valid solution possible!");
-				System.exit(0);}
-		}if (forbiddenSet.size() < 2){
+				System.exit(0);
+			}
+		}else {
+			for (int counter = 0; counter < forced.length; counter++) {
+				forcedPartial(mainArray, forced, forced[counter], counter);
+			}
+		}		
+		
+		
+		if (forbiddenSet.size() == 1){
 			if (forbiddenSet.equals(-1)) {
 				for (int counter = 0; counter < forbidden.length; counter++) {
 					forbidden(mainArray, forbidden, forbidden[counter], counter, forced);
@@ -54,34 +56,16 @@ public class HardConstraints{
 				OutputWriter.writeFile(forced, 0, "No valid solution possible!");
 				System.exit(0);
 			}
-		}//else {
-		//	for (int count = 0; count<forced.length; count++) {
-		//		int[] forcedConflict = {};
-		//		if (forcedConflict.length == 0) {forcedConflict[0]=forced[0];}
-		//		else if (forced[count] in forcedConflict) {
-					
-		//		}
-		//	}
-		//}
-		
-		//if ((forbiddenSet.size()<8)||(forcedSet.size()<8)) {
-		//	if 
-		//	OutputWriter.writeFile(forced, 0, "No valid solution possible!");
-		//	System.exit(0);
-		//}
-		
-		//for (int counter = 0; counter < forced.length; counter++) {
-		//	forcedPartial(mainArray, forced, forced[counter], counter);	
-		//}
-		
-		//for (int counter = 0; counter < forbidden.length; counter++) {
-		//	forbidden(mainArray, forbidden, forbidden[counter], counter, forced);
-		//	}
-		
+		}else {
+			for (int counter = 0; counter < forbidden.length; counter++) {
+				forbidden(mainArray, forbidden, forbidden[counter], counter, forced);
+			}
+		}
+			
+			
 		if (tooNear.size()>0) {
 			tooNearRead(mainArray, tooNear, forced);
 		}
-		
 		return mainArray;
 	}
 
