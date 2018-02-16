@@ -336,15 +336,15 @@ public class HardConstraints{
 		private static boolean isConflict(int machine, int task, int[] forcedList) {
 			// TODO Auto-generated method stub
 			boolean forcedConflict = false;
-			int[] taskChecked = {};
+			ArrayList<Integer> taskChecked = new ArrayList<Integer>();
 			for (int count = 0; count<forcedList.length;count++) {
 				if (forcedList[count]==task) {
 					//if (taskChecked.length==0) {taskChecked[0] = forcedList[count];}
 					//else {taskChecked[taskChecked.length] = forcedList[count];}
-					taskChecked[taskChecked.length] = forcedList[count];
+					taskChecked.add(forcedList[count]);
 				}
-			}if (taskChecked.length>1) {forcedConflict = false;}
-			else {forcedConflict = true;}
+			}if (taskChecked.size() > 1) {forcedConflict = true;}
+			else {forcedConflict = false;}
 			
 			return forcedConflict;
 		}
