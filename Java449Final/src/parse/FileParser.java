@@ -271,12 +271,22 @@ public class FileParser {
 						// convert the line to an array in order to access
 						// individual penalty value
 						lineArray = line.toCharArray();
+<<<<<<< HEAD
+						
+						try {
+							String temp = Character.toString(lineArray[0]);
+							Integer.parseInt(temp);
+						}
+						catch (Exception e) {
+=======
 
 						if (!(Character.getNumericValue(lineArray[0]) > 9 | Character.getNumericValue(lineArray[0]) < 0)) {
+>>>>>>> branch 'master' of https://github.com/nickjimenez/449JavaFinal.git
 							int[] forcedList = {};
 							OutputWriter.writeFile(forcedList, 0, "Error while parsing input file");
 							System.exit(0);
 						}
+
 						
 						// reset column counter, penaltyBuffer, and task counter
 						penaltyColumn = 0;
