@@ -52,23 +52,78 @@ public class Tasker {
 		return promisingCost;
 	}
 
+	private static boolean isTooNear(Node parent, int task, ArrayList<String> tooNearTaskArray) {
+		boolean result = false;
+		
+		ArrayList<Object> parsedList = new ArrayList<Object>();
+		String pair = new String();
+		
+		for (int index = 0; index < tooNearTaskArray.size(); index++) {
+			
+			pair = tooNearTaskArray.get(index);
+			ArrayList<Integer> innerList = new ArrayList<Integer>();
+			
+			for (int innerIndex = 0; innerIndex < 2; innerIndex++) {
+				
+				
+				switch(pair.charAt(innerIndex)) {
+				case 'A':
+					innerList.add(0);
+					break;
+				case 'B':
+					innerList.add(1);
+					break;
+				case 'C':
+					innerList.add(2);
+					break;
+				case 'D':
+					innerList.add(3);
+					break;
+				case 'E':
+					innerList.add(4);
+					break;
+				case 'F':
+					innerList.add(5);
+					break;
+				case 'G':
+					innerList.add(6);
+					break;
+				case 'H':
+					innerList.add(7);
+					break;
+				default:
+					System.exit(0);
+				}
+				
+			}
+			
+			parsedList.add(innerList);
+			
+		}
+		
+		
+		
+		
+		return result;
+	}
+	
 	// Calculates penalty for assignment that have tasks that are too near to each other
-	private static int calcTooNearPenalties(Node child, ArrayList<Integer> tooNearArray) {
+	private static int calcTooNearPenalties(Node child, ArrayList<Integer> tooNearPenaltyArray) {
 
 		int penalty = 0;
 		
 		// Iterates through tooNearArray and checks if an assignment is too near each other
-		for (int i = 0; i <= tooNearArray.size() - 3; i+=3) {
-			if (child.task == tooNearArray.get(i + 1) && child.parent.task == tooNearArray.get(i))
-				penalty = tooNearArray.get(i + 2);
+		for (int i = 0; i <= tooNearPenaltyArray.size() - 3; i+=3) {
+			if (child.task == tooNearPenaltyArray.get(i + 1) && child.parent.task == tooNearPenaltyArray.get(i))
+				penalty = tooNearPenaltyArray.get(i + 2);
 		
 			// Includes checking for first machine and last machine
 			if (child.mach == Config.GLOBAL_SIZE - 1) {
 				Node firstMach = child;
 				for (int j = Config.GLOBAL_SIZE - 2; j >= 0; j--)
 					firstMach = firstMach.parent;
-				if (firstMach.task == tooNearArray.get(i + 1) && child.parent.task == tooNearArray.get(i))
-					penalty += tooNearArray.get(i + 2);
+				if (firstMach.task == tooNearPenaltyArray.get(i + 1) && child.parent.task == tooNearPenaltyArray.get(i))
+					penalty += tooNearPenaltyArray.get(i + 2);
 					
 			}	
 		}
@@ -124,7 +179,7 @@ public class Tasker {
 			for (int currTask = 0; currTask < costMatrix.length; currTask++)
 		      {
 		        // Creates a child node for the unassigned task
-		        if (!activeNode.assignedNodesArray[currTask] && costMatrix[currMach][currTask] != -1) {
+		        if (!activeNode.assignedNodesArray[currTask] && costMatrix[currMach][currTask] != -1 && ) {
 		        	Node child = new Node(currMach, currTask, activeNode.assignedNodesArray, activeNode);
 		 
 		        	// Calculates the path cost of the node
