@@ -53,58 +53,59 @@ public class Tasker {
 	}
 
 	private static boolean isTooNear(Node parent, int task, ArrayList<String> tooNearTaskArray) {
-		boolean result = false;
 		
-		ArrayList<Object> parsedList = new ArrayList<Object>();
-		String pair = new String();
+		boolean isTooNear = false;
+		int[][] parsedTooNear = new int[tooNearTaskArray.size()][2];
 		
-		for (int index = 0; index < tooNearTaskArray.size(); index++) {
-			
-			pair = tooNearTaskArray.get(index);
-			ArrayList<Integer> innerList = new ArrayList<Integer>();
-			
-			for (int innerIndex = 0; innerIndex < 2; innerIndex++) {
-				
-				
-				switch(pair.charAt(innerIndex)) {
+		for (int index = 0; index < tooNearTaskArray.size(); index++) {		
+			for (int letter = 0; letter < 2; letter++) {	
+				switch(tooNearTaskArray.get(index).charAt(letter)) {
 				case 'A':
-					innerList.add(0);
+					parsedTooNear[index][letter] = 0;
 					break;
 				case 'B':
-					innerList.add(1);
+					parsedTooNear[index][letter] = 1;
 					break;
 				case 'C':
-					innerList.add(2);
+					parsedTooNear[index][letter] = 2;
 					break;
 				case 'D':
-					innerList.add(3);
+					parsedTooNear[index][letter] = 3;
 					break;
 				case 'E':
-					innerList.add(4);
+					parsedTooNear[index][letter] = 4;
 					break;
 				case 'F':
-					innerList.add(5);
+					parsedTooNear[index][letter] = 5;
 					break;
 				case 'G':
-					innerList.add(6);
+					parsedTooNear[index][letter] = 6;
 					break;
 				case 'H':
-					innerList.add(7);
+					parsedTooNear[index][letter] = 7;
 					break;
 				default:
 					System.exit(0);
 				}
-				
 			}
+		}
+		
+		for (int[] tasks : parsedTooNear) {
+			if (parent.task == tasks[0] && task == tasks[1]) 
+				isTooNear = true;
 			
-			parsedList.add(innerList);
+			if (parent.mach == Config.GLOBAL_SIZE - 2) {
+				Node firstMach = parent;
+				for (int j = Config.GLOBAL_SIZE - 2; j >= 0; j--)
+					firstMach = firstMach.parent;
+				if (task == tasks[0] && firstMach.task == tasks[1]) 
+					isTooNear = true;
+					
+			}	
 			
 		}
 		
-		
-		
-		
-		return result;
+		return isTooNear;
 	}
 	
 	// Calculates penalty for assignment that have tasks that are too near to each other
@@ -151,7 +152,7 @@ public class Tasker {
 	
 	// Finds the optimal job scheduling cost using Branch and Bound algorithm 
 	// and implements a list of active nodes as a min-heap
-	public static void optimize(int[][] costMatrix, ArrayList<Integer> tooNearArray, String errorString) {
+	public static void optimize(int[][] costMatrix, ArrayList<Integer> tooNearPenaltyArray, ArrayList<String> tooNearTaskArray, String errorString) {
 		
 		// Contains the list of active nodes stored in a min-heap priority queue
 		PriorityQueue<Node> activeNodesArray = new PriorityQueue<Node>();
@@ -179,11 +180,11 @@ public class Tasker {
 			for (int currTask = 0; currTask < costMatrix.length; currTask++)
 		      {
 		        // Creates a child node for the unassigned task
-		        if (!activeNode.assignedNodesArray[currTask] && costMatrix[currMach][currTask] != -1 && ) {
+		        if (!activeNode.assignedNodesArray[currTask] && costMatrix[currMach][currTask] != -1 && isTooNear(activeNode, currTask, tooNearTaskArray)) {
 		        	Node child = new Node(currMach, currTask, activeNode.assignedNodesArray, activeNode);
 		 
 		        	// Calculates the path cost of the node
-		        	child.pathCost = activeNode.pathCost + costMatrix[currMach][currTask] + calcTooNearPenalties(child, tooNearArray);
+		        	child.pathCost = activeNode.pathCost + costMatrix[currMach][currTask] + calcTooNearPenalties(child, tooNearPenaltyArray);
 		 
 		          // Calculates the least promising cost of the node
 		        	child.promisingCost = child.pathCost + calculatePromisingCost(costMatrix, child);
