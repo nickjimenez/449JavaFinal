@@ -29,6 +29,32 @@ public class HardConstraints{
 		
 		for (int counter = 0; counter < 8; counter++) {
 			forcedSet.add(forced[counter]);
+			for (int counter1 = 0; counter< forbidden.get(counter).size();counter++) {
+				forbiddenSet.add(forbidden.get(counter).get(counter1));
+				}
+		}
+		
+		if (forbiddenSet.size() == 1) {
+			if (forbiddenSet.contains(-1)){
+				for (ArrayList<Integer> mach : forbidden) {
+					
+					int machIndex = forbidden.indexOf(mach);
+					
+					if (mach.size() == 8) {
+						
+						OutputWriter.writeFile(forced, 0, "No valid solution possible!");
+						System.exit(0);
+						
+					}
+					
+					for (int forbiddenTask : mach)
+						forbidden(mainArray, forbiddenTask, machIndex, forced);
+					
+				}
+			}else {
+				OutputWriter.writeFile(forced, 0, "No valid solution possible!");
+				System.exit(0);
+			}
 		}
 		
 		if (forcedSet.size() == 1) {
@@ -46,7 +72,7 @@ public class HardConstraints{
 			}
 		}		
 		
-		
+/*		
 		for (ArrayList<Integer> mach : forbidden) {
 			
 			int machIndex = forbidden.indexOf(mach);
@@ -63,7 +89,7 @@ public class HardConstraints{
 			
 		}
 		
-			
+*/			
 		return mainArray;
 	}
 
