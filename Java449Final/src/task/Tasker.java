@@ -180,7 +180,7 @@ public class Tasker {
 			for (int currTask = 0; currTask < costMatrix.length; currTask++)
 		      {
 		        // Creates a child node for the unassigned task
-		        if (!activeNode.assignedNodesArray[currTask] && costMatrix[currMach][currTask] != -1 && isTooNear(activeNode, currTask, tooNearTaskArray)) {
+		        if (!activeNode.assignedNodesArray[currTask] && costMatrix[currMach][currTask] != -1 && !isTooNear(activeNode, currTask, tooNearTaskArray)) {
 		        	Node child = new Node(currMach, currTask, activeNode.assignedNodesArray, activeNode);
 		 
 		        	// Calculates the path cost of the node

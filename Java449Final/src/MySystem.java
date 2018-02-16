@@ -4,7 +4,6 @@ import commons.Config;
 import commons.OutputWriter;
 import parse.FileParser;
 import process.HardConstraints;
-import process.SoftConstraints;
 import task.Tasker;
 
 /*
@@ -13,7 +12,7 @@ import task.Tasker;
  * Heavenel Cerna 30019914
  * Issack John 30031053
  * Nickole Jimenez 10052979
- * Riike Oyesoro 
+ * Riike Oyesoro 30003141
  */
 
 public class MySystem {
@@ -25,21 +24,21 @@ public class MySystem {
         String errorString = "x";
 
 		try {
+			
 			inputFileName = args[0];
 			outputFileName = args[1];
+			
 		}
 		catch(Exception e) {
+			
 			int[] forcedList = {};
-			//int ignoreVal = -1;
-			//System.out.println("ERROR: Retry with valid argument for parameters INPUTFILE OUPUTFILE");
 			OutputWriter.writeFile(forcedList, 0, "ERROR: Retry with valid argument for parameters INPUTFILE OUPUTFILE");
-			//do nothing. go back to for loop
-			//System.out.print("Error: Task out of bounds!");
-			//System.exit(0);
 			System.exit(0);
+			
 		}
 
 		Config.OUTPUT_FILENAME = outputFileName;
+		
 		int[][] penaltyMatrix = new int[Config.GLOBAL_SIZE][Config.GLOBAL_SIZE];
 		int[] forcedPartialAssignment = new int[Config.GLOBAL_SIZE];
 		ArrayList<ArrayList<Integer>> forbiddenMachine = new ArrayList<ArrayList<Integer>>(Config.GLOBAL_SIZE);
@@ -54,12 +53,12 @@ public class MySystem {
 		FileParser setup = new FileParser();	
 		setup.openAndParse(penaltyMatrix, forcedPartialAssignment, forbiddenMachine, tooNearTasks, tooNearPenalties, inputFileName);
 		
-//		int[] forbiddenMachine = new int[Config.GLOBAL_SIZE];
 		
 		HardConstraints hard = new HardConstraints();
 		hard.doHard(penaltyMatrix, forcedPartialAssignment, forbiddenMachine, tooNearTasks, errorString);
 
 		Tasker.optimize(penaltyMatrix, tooNearPenalties, tooNearTasks, errorString);
+		
 	}
 
 }
