@@ -3,6 +3,7 @@ package process;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 import commons.OutputWriter;
 
@@ -109,6 +110,9 @@ public class HardConstraints{
 		case 'H':
 			tooNearComp2(mainArray, 7, tooNearString.charAt(1), tooNearArray, forcedList);
 			break;
+		default:
+			OutputWriter.writeFile(forcedList, 0, "No valid solution possible!");
+			System.exit(0);
 		}
 	}
 	
@@ -140,6 +144,9 @@ public class HardConstraints{
 		case 'H':
 			setTooNear(mainArray, firstTask, 7, tooNearArray, forcedList);
 			break;
+		default:
+			OutputWriter.writeFile(forcedList, 0, "No valid solution possible!");
+			System.exit(0);
 		}
 		
 	}
@@ -148,7 +155,8 @@ public class HardConstraints{
 	private static void setTooNear(int[][] mainArray, int firstTask, int secondTask, ArrayList<String> tooNearArray, int[] forcedList) {
 		// TODO Auto-generated method stub
 	    for (int count = 0 ; count < 8; count++) {
-	    		if(mainArray[count][firstTask] != -1){ //checks if machine has already been forced to a task. 
+	    		if(!IntStream.of(forcedList).anyMatch(i -> i == firstTask)) {
+	    		//if(mainArray[count][firstTask] != -1){ //checks if machine has already been forced to a task. 
 	    			//if it hasn't, go in. else ignore.
 	    			if (count == 7) { //if machine 8, forbidden next is machine 1.
 	    				if (isForced(count,firstTask,forcedList)) {
@@ -333,6 +341,8 @@ public class HardConstraints{
 			}
 		}
 
+		
+		// checks if 
 		private static boolean isConflict(int machine, int task, int[] forcedList) {
 			// TODO Auto-generated method stub
 			boolean forcedConflict = false;
