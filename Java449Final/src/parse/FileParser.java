@@ -272,7 +272,7 @@ public class FileParser {
 						// individual penalty value
 						lineArray = line.toCharArray();
 
-						if (!(lineArray[0] > 9 | lineArray[0] < 0)) {
+						if (!(Character.getNumericValue(lineArray[0]) > 9 | Character.getNumericValue(lineArray[0]) < 0)) {
 							int[] forcedList = {};
 							OutputWriter.writeFile(forcedList, 0, "Error while parsing input file");
 							System.exit(0);
