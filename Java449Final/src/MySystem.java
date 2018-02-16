@@ -59,7 +59,7 @@ public class MySystem {
 		HardConstraints hard = new HardConstraints();
 		hard.doHard(penaltyMatrix, forcedPartialAssignment, forbiddenMachine, tooNearTasks, errorString);
 
-		Tasker.optimize(penaltyMatrix, tooNearPenalties, errorString);
+		Tasker.optimize(penaltyMatrix, tooNearPenalties, tooNearTasks, errorString);
 	}
 
 }
